@@ -3,10 +3,59 @@
 #include <stdlib.h>
 #include <string.h>
 
+int compara(char t1[], char t2[])
+{
+	int i = 0;
+	
+	while (t1[i] == t2[i] && t1[i]!='\0' && t2[i]!='\0')
+		i++;
+	
+	if (t1[i] < t2[i])
+		return 0;
+	else 
+		return 1;
+
+}
+void cop( char t1[], char t2[] )
+{
+	char t[256];
+	int i = 0;
+	while (t1[i] != '\0' && t2[i] != '\0')
+	{
+		t[i] = t1[i];
+		t1[i] = t2[i];
+		t2[i] = t[i];
+		i++;
+	}
+
+	if (t1[i] == '\0')
+	{
+		int k = i;
+		while (t2[i] != '\0')
+		{
+			t1[i] = t2[i];
+			i++;
+		}
+		t2[k] = '\0';
+		t1[i] = '\0';
+	}
+	
+	if (t2[i] == '\0')
+	{
+		int k = i;
+		while (t1[i] != '\0')
+		{
+			t2[i] = t1[i];
+			i++;
+		}
+		t1[k] = '\0';
+		t2[i] = '\0';
+	}
+}
 
 int main()
 {
-	char p[256], t[100], s[256][100];
+	char p[256], s[256][100];
 	int v[100], i, j, k, a;
 
 	scanf(" %[^\n]", p);
@@ -38,15 +87,13 @@ int main()
 	{
 		for (j = i + 1; j < k; j++)
 		{
-			if (v[i] < v[j] || (v[i] == v[j] && strcmp(s[i], s[j]) > 0))
+			if (v[i] < v[j] || (v[i] == v[j] && compara(s[i], s[j]) == 1))
 			{
 				a = v[i]; 
 				v[i] = v[j]; 
 				v[j] = a;
-				strcpy( t,s[i]);
-				strcpy(s[i],s[j]);
-				strcpy(s[j], t);
-				
+				cop(s[i], s[j]);
+
 			}
 		}
 	}
